@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JUAMPI // Recipes</title>
+  <title>NEONBLADE // Recipes</title>
   <link rel="stylesheet" href="recipe.css" />
+  <script defer src="recipe.js"></script>
 </head>
 <body>
   <div class="layout">
     <aside>
-      <h1 data-text="𓂀 NEONBLADE">𓂀 NEONBLADE</h1>
+      <h1 data-text="ጀ NEONBLADE">ጀ NEONBLADE</h1>
       <nav>
         <ul>
           <li><a href="../index.html">◀ Back</a></li>
@@ -23,23 +24,37 @@
         <p>Welcome to my collection of personal recipes — savory bites from my synthwave kitchen. More coming soon...</p>
       </section>
 
-      <section class="recipe">
-        <h3>Ramen - Personal Recipe</h3>
+      <details class="recipe">
+        <summary class="glow">Miso Ramen (Personal Recipe)</summary>
+        <h4>Ingredients</h4>
         <ul>
-          <li>Cook the noodles separately and set aside.</li>
-          <li>Prepare the broth with chicken stock, kombu, and katsuobushi.</li>
-          <li>Make a simple tare using soy sauce, mirin, and sake.</li>
-          <li>Soft-boil eggs and marinate them in soy-based marinade.</li>
-          <li>Top with chashu pork, spring onions, and nori.</li>
+          <li><strong>Egg Marinade:</strong> 6 tbsp soy sauce, 3 tbsp mirin, 3 tbsp cooking sake</li>
+          <li><strong>Broth:</strong> 6 garlic cloves, 3 tbsp sesame oil, 3 tbsp soy sauce, 4 cups water, ¼ cup miso paste, small scoop of spicy miso (optional), 3 tbsp butter, salt, white pepper, garlic powder</li>
+          <li><strong>Toppings:</strong> 3 shiitake mushrooms, 3 green onions, 2 marinated eggs, seaweed strips</li>
+          <li><strong>Noodles:</strong> ½ cup water, 1 egg, 1 egg yolk, 2 ½ cups flour, pinch of salt</li>
         </ul>
-      </section>
+
+        <h4>Preparation</h4>
+        <ul>
+          <li><strong>Marinated Eggs:</strong> Soft boil eggs (6.5 min), chill, peel and marinate for 1 hour minimum.</li>
+          <li><strong>Broth:</strong> Sauté garlic in sesame oil, add soy sauce, miso, spicy miso, water, butter and season. Simmer 15–20 min.</li>
+          <li><strong>Toppings:</strong> Sauté mushrooms, chop onions, halve eggs, prepare seaweed.</li>
+          <li><strong>Assemble:</strong> Add noodles to bowl, pour hot broth, top with garnishes. Enjoy hot.</li>
+        </ul>
+
+        <h4>Home Made Noodles (you can also buy them...)</h4>
+        <ul>
+          <li>Mix water, egg and yolk in a bowl.</li>
+          <li>Gradually add flour and salt while mixing.</li>
+          <li>Knead until smooth, wrap and let rest 30 min.</li>
+          <li>Roll and cut into thin noodles. Boil 2–3 min, drain and set aside.</li>
+        </ul>
+      </details>
 
       <section id="recipe-list">
         <!-- JavaScript will inject more recipes here -->
       </section>
     </main>
   </div>
-
-  <script src="recipes.js"></script>
 </body>
 </html>

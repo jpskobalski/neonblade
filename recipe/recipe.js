@@ -1,7 +1,7 @@
 const recipes = [
     {
       title: "Spicy Miso Ramen",
-      source: "JUAMPI's Kitchen",
+      source: "NEONBLADE's Kitchen",
       ingredients: [
         "Noodles",
         "Spicy miso tare",
@@ -14,7 +14,7 @@ const recipes = [
     },
     {
       title: "Cyber Tacos 🌮",
-      source: "JUAMPI's Late Night Experiments",
+      source: "NEONBLADE's Late Night Experiments",
       ingredients: [
         "Blue corn tortillas",
         "Spiced beef",
