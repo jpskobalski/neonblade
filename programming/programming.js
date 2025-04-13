@@ -1,5 +1,5 @@
 // Typewriter
-const text = "Here you can find a compilation of code snippets that I use or are fun to use. I enjoy doing little strange things in the real and the virtual world.";
+const text = "Here you can find a compilation of books and resources, cool linux repos and code snippets that I use or are fun to use. I enjoy doing little strange things in the real and the virtual world.";
 let i = 0;
 const speed = 40;
 const typeTarget = document.getElementById('typeTarget');

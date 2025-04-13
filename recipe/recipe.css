@@ -146,3 +146,77 @@ html {
     }
   }
   
+  /* -------------------------------------------------- */
+/* 🗓️ WEEKLY MEAL PREP GRID */
+/* -------------------------------------------------- */
+.meal-grid {
+  margin-top: 2rem;
+  overflow-x: auto;
+  border: 1px solid #00ff00;
+  border-radius: 6px;
+  box-shadow: 0 0 10px #00ff00;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+}
+
+.meal-grid table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #39ff14;
+}
+
+.meal-grid th,
+.meal-grid td {
+  border: 1px solid #00ff00;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.meal-grid thead th {
+  background-color: rgba(0, 255, 0, 0.1);
+  font-size: 1rem;
+  color: #00ffcc;
+  text-shadow: 0 0 4px #00ffee;
+}
+
+.meal-grid tbody td:first-child {
+  font-weight: bold;
+  background-color: rgba(0, 255, 0, 0.05);
+  color: #00ffcc;
+}
+
+/* -------------------------------------------------- */
+/* 🍴 EXTRA RECIPE DETAILS (MEAL BASES) */
+/* -------------------------------------------------- */
+.recipe-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.recipe-pair details.recipe {
+  flex: 1 1 45%;
+  max-width: 48%;
+}
+
+@media (max-width: 768px) {
+  .recipe-pair {
+    flex-direction: column;
+  }
+
+  .recipe-pair details.recipe {
+    max-width: 100%;
+  }
+
+  .meal-grid th,
+  .meal-grid td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .meal-grid thead th {
+    font-size: 0.9rem;
+  }
+}

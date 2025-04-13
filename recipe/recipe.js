@@ -13,3 +13,12 @@ function typeWriter() {
 }
 
 window.addEventListener('load', typeWriter);
+
+// Toggle both details open or closed together inside .recipe-pair
+document.querySelectorAll('.recipe-pair details').forEach((detail, _, all) => {
+  detail.addEventListener('toggle', () => {
+    const shouldOpen = detail.open;
+    all.forEach(d => d.open = shouldOpen);
+  });
+});
+
