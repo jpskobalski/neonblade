@@ -1,53 +1,15 @@
-const recipes = [
-    {
-      title: "Spicy Miso Ramen",
-      source: "NEONBLADE's Kitchen",
-      ingredients: [
-        "Noodles",
-        "Spicy miso tare",
-        "Chicken broth",
-        "Soft-boiled egg",
-        "Chili oil",
-        "Ground pork",
-        "Scallions",
-      ]
-    },
-    {
-      title: "Cyber Tacos 🌮",
-      source: "NEONBLADE's Late Night Experiments",
-      ingredients: [
-        "Blue corn tortillas",
-        "Spiced beef",
-        "Pickled red onions",
-        "Lime crema",
-        "Synthwave hot sauce"
-      ]
-    }
-  ];
-  
-  const container = document.getElementById('recipe-list');
-  
-  recipes.forEach(recipe => {
-    const section = document.createElement('section');
-    section.className = 'recipe';
-  
-    const title = document.createElement('h3');
-    title.textContent = recipe.title;
-  
-    const source = document.createElement('p');
-    source.className = 'meta';
-    source.textContent = `Source: ${recipe.source}`;
-  
-    const list = document.createElement('ul');
-    recipe.ingredients.forEach(item => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      list.appendChild(li);
-    });
-  
-    section.appendChild(title);
-    section.appendChild(source);
-    section.appendChild(list);
-    container.appendChild(section);
-  });
-  
+// Typewriter for About Section on Main Page
+const text = "Welcome to my collection of personal recipes. I'm not a cheff, but I love to cook and show people I love a piece of my cooking art.";
+let i = 0;
+const speed = 40;
+const typeTarget = document.getElementById('typeTarget');
+
+function typeWriter() {
+  if (i < text.length) {
+    typeTarget.textContent += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+
+window.addEventListener('load', typeWriter);
