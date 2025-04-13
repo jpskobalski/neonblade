@@ -1,0 +1,65 @@
+.code-block {
+    margin-top: 2rem;
+    background-color: #0d0d0d;
+    padding: 1rem;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+  
+  .code-block pre {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    color: #39ff14;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-shadow: 0 0 5px #39ff14;
+  }
+  
+  /* Terminal sim */
+  .terminal {
+    background: #000;
+    color: #00ff00;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    border: 1px solid #00ff00;
+    border-radius: 6px;
+    box-shadow: 0 0 10px #00ff00;
+    margin-top: 1rem;
+  }
+  
+  .terminal p {
+    margin: 0.2rem 0;
+  }
+  
+  .terminal-cursor {
+    animation: blink 0.75s step-end infinite;
+  }
+  
+  .terminal-line {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  
+  .terminal-line .prompt {
+    color: #00ff00;
+    margin-right: 0.5rem;
+  }
+  
+  #terminal-input {
+    background: black;
+    border: none;
+    color: #39ff14;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    outline: none;
+    width: 100%;
+  }
+  
+  .glitched-output {
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+  }
+  

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>NEONBLADE // Programming</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="programming.css" />
+  <script defer src="programming.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <h1 data-text="𓂀 NEONBLADE">𓂀 NEONBLADE</h1>
+      <nav>
+        <ul>
+          <li><a href="../index.html">◀ Back</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main>
+      <section id="programming">
+        <h2 class="glow">Programming</h2>
+        <p class="typewriter"><span id="typeTarget"></span><span class="cursor"></span></p>
+        <div class="terminal-sim">
+          <h3 class="glow">Terminal Simulation ~ try me</h3>
+          <div class="terminal" id="terminal">
+            <div id="terminal-output"></div>
+            <div class="terminal-line">
+              <span class="prompt">>juampi@grid:~$</span>
+              <input type="text" id="terminal-input" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <h3 class="glow">Typewriter Effect (Vanilla JS)</h3>
+          <pre><code class="language-js">// Simple typewriter effect
+const text = "I'm NEONBLADE, synthwave entity & code dreamer.";
+let index = 0;
+
+function type() {
+  const target = document.getElementById('typeTarget');
+  if (index < text.length) {
+    target.textContent += text.charAt(index);
+    index++;
+    setTimeout(type, 50);
+  }
+}
+
+window.onload = type;
+          </code></pre>
+        </div>
+
+        <div class="code-block">
+          <h3 class="glow">Glitch Generator</h3>
+          <pre><code class="language-js">function glitchText(text) {
+  return text.split('').map(c => Math.random() > 0.2
+    ? c
+    : String.fromCharCode(33 + Math.random() * 94)).join('');
+}
+
+console.log(glitchText("Reality is broken"));
+          </code></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
