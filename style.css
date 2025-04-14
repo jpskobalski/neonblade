@@ -1,3 +1,9 @@
+html {
+  background: #000000;
+  color: #39ff14;
+  scroll-behavior: smooth;
+}
+
 /* -------------------------------------------------- */
 /* 🌐 GENERAL RESET */
 /* -------------------------------------------------- */
@@ -285,7 +291,7 @@ body::before {
 
 .playlist-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -337,7 +343,7 @@ body::before {
 
 
 /* -------------------------------------------------- */
-/* PROGRAMING SECTION */
+/* PROGRAMING & DUAL SECTION */
 /* -------------------------------------------------- */
 
 .neon-button {
@@ -360,6 +366,32 @@ body::before {
   color: #ffffff;
   transform: scale(1.05);
   box-shadow: 0 0 15px #00ffee, 0 0 30px #00ffee;
+}
+
+.dual-section {
+  display: flex;
+  gap: 2rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.index-block {
+  flex: 1;
+  min-width: 300px;
+  padding: 1.5rem;
+  border: 1px dotted #00ffcc;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px #00ffcc66;
+}
+
+.index-block p {
+  margin-bottom: 1rem;
+}
+
+.index-block .neon-button {
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 
