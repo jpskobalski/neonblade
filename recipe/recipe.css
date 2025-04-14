@@ -220,3 +220,33 @@ html {
     font-size: 0.9rem;
   }
 }
+
+
+.recipe.breakfast { border-left: 4px solid #ff00ff; box-shadow: 0 0 10px #ff00ff33; }
+.recipe.dinner    { border-left: 4px solid #00ffee; box-shadow: 0 0 10px #00ffee33; }
+.recipe.snack     { border-left: 4px solid #ffff00; box-shadow: 0 0 10px #ffff0033; }
+.recipe.dessert   { border-left: 4px solid #ff6600; box-shadow: 0 0 10px #ff660033; }
+
+.glitch-divider {
+  text-align: center;
+  margin: 4rem 0 2rem;
+  position: relative;
+  font-size: 1.2rem;
+  color: #00ffcc;
+  text-shadow:
+    0 0 2px #00ffee,
+    0 0 4px #00ffee,
+    0 0 8px #00ffee;
+  animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 2px #00ffee, 0 0 5px #00ffee;
+  }
+  50% {
+    opacity: 0.6;
+    text-shadow: 0 0 3px #39ff14, 0 0 7px #00ffee;
+  }
+}

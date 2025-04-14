@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>NEONBLADE // Programming</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../recipe/recipe.css" />
   <link rel="stylesheet" href="programming.css" />
   <script defer src="programming.js"></script>
 </head>
@@ -47,34 +47,50 @@
             </ul>
           </div>
         </div>
-
-        <h3 class="glow">Code snippets</h3>
-
-        <details class="code-block">
-          <summary class="glow">Typewriter Effect (Vanilla JS)</summary>
-          <pre><code class="language-js">// Simple typewriter effect
-const text = "I'm NEONBLADE, synthwave entity & code dreamer.";
-let index = 0;
-function type() {
-  const target = document.getElementById('typeTarget');
-  if (index < text.length) {
-    target.textContent += text.charAt(index);
-    index++;
-    setTimeout(type, 50);
-  }
-}
-window.onload = type;</code></pre>
-        </details>
-
-        <details class="code-block">
-          <summary class="glow">Glitch Generator</summary>
-          <pre><code class="language-js">function glitchText(text) {
-  return text.split('').map(c => Math.random() > 0.2
-    ? c
-    : String.fromCharCode(33 + Math.random() * 94)).join('');
-}
-console.log(glitchText("Reality is broken"));</code></pre>
-        </details>
+        <br>
+        <h3 class="glow">Cool code snippets</h3>
+        <div class="snippets-grid">
+          <details class="snippet-card">
+            <summary class="glow">Typewriter Effect</summary>
+            <pre><code class="language-js">// Typewriter effect
+        const text = "I'm NEONBLADE, synthwave entity & code dreamer.";
+        let index = 0;
+        function type() {
+          const target = document.getElementById('typeTarget');
+          if (index < text.length) {
+            target.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, 50);
+          }
+        }
+        window.onload = type;</code></pre>
+          </details>
+        
+          <details class="snippet-card">
+            <summary class="glow">Glitch Generator</summary>
+            <pre><code class="language-js">function glitchText(text) {
+          return text.split('').map(c => Math.random() > 0.2
+            ? c
+            : String.fromCharCode(33 + Math.random() * 94)).join('');
+        }
+        console.log(glitchText("Reality is broken"));</code></pre>
+          </details>
+        </div>
+        <div class="snippets-grid">
+          <details class="snippet-card">
+            <summary class="glow">Clipboard Copy Snippet</summary>
+            <pre><code class="language-js">navigator.clipboard.writeText('Hello, world!')
+          .then(() => console.log('Copied to clipboard'))
+          .catch(err => console.error('Error:', err));</code></pre>
+          </details>
+        
+          <details class="snippet-card">
+            <summary class="glow">Dark Mode Toggle</summary>
+            <pre><code class="language-js">document.getElementById('toggleDark').onclick = () => {
+          document.body.classList.toggle('dark');
+        };</code></pre>
+          </details>
+        </div>
 
         <div class="terminal-sim">
           <h3 class="glow">Terminal Simulation ~ try me</h3>
@@ -85,6 +101,64 @@ console.log(glitchText("Reality is broken"));</code></pre>
               <input type="text" id="terminal-input" autocomplete="off" />
             </div>
           </div>
+        </div>
+
+        <div class="snippets-grid">
+          <details class="snippet-card">
+            <summary class="glow">Terminal code Snippet</summary>
+            <pre><code class="language-js">
+              // Terminal Sim
+              const terminalInput = document.getElementById('terminal-input');
+              const terminalOutput = document.getElementById('terminal-output');
+              
+              const commands = {
+                help: "Available commands: help, whoami, glitch \"your text\", clear",
+                whoami: "NEONBLADE // synthwave entity & code architect"
+              };
+              
+              // Glitch function
+              function glitchText(input) {
+                return input.split('')
+                  .map(c => Math.random() > 0.2
+                    ? c
+                    : String.fromCharCode(33 + Math.random() * 94))
+                  .join('');
+              }
+              
+              terminalInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                  const input = terminalInput.value.trim();
+                  printLine(`> ${input}`);
+              
+                  const [cmd, ...args] = input.split(' ');
+                  const argStr = args.join(' ').replace(/"/g, '');
+              
+                  if (cmd === 'clear') {
+                    terminalOutput.innerHTML = '';
+                  } else if (cmd === 'glitch') {
+                    const textToGlitch = argStr || "No text provided.";
+                    printLine(glitchText(textToGlitch), true);
+                  } else if (commands[cmd]) {
+                    printLine(commands[cmd]);
+                  } else {
+                    printLine(`Command not found: ${cmd}`);
+                  }
+              
+                  terminalInput.value = '';
+                }
+              });
+              
+              function printLine(text, isGlitched = false) {
+                const line = document.createElement('p');
+                line.textContent = text;
+                if (isGlitched) {
+                  line.classList.add('glitched-output');
+                }
+                terminalOutput.appendChild(line);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+              }
+              </code></pre>
+          </details>
         </div>
 
       </section>

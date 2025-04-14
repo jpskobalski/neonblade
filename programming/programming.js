@@ -43,7 +43,7 @@ terminalInput.addEventListener('keydown', function (e) {
     if (cmd === 'clear') {
       terminalOutput.innerHTML = '';
     } else if (cmd === 'glitch') {
-      const textToGlitch = argStr || "⚠️ No text provided.";
+      const textToGlitch = argStr || "No text provided.";
       printLine(glitchText(textToGlitch), true);
     } else if (commands[cmd]) {
       printLine(commands[cmd]);
@@ -63,4 +63,25 @@ function printLine(text, isGlitched = false) {
   }
   terminalOutput.appendChild(line);
   terminalOutput.scrollTop = terminalOutput.scrollHeight;
+}
+
+// Function to detect mobile devices
+function isMobileDevice() {
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (!isMobileDevice()) {
+  // Sync only the details inside each .snippets-grid
+  const snippetGrids = document.querySelectorAll('.snippets-grid');
+
+  snippetGrids.forEach(grid => {
+    const cards = grid.querySelectorAll('.snippet-card');
+
+    cards.forEach(card => {
+      card.addEventListener('toggle', () => {
+        const shouldOpen = card.open;
+        cards.forEach(c => c.open = shouldOpen);
+      });
+    });
+  });
 }

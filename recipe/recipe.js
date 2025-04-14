@@ -14,11 +14,21 @@ function typeWriter() {
 
 window.addEventListener('load', typeWriter);
 
-// Toggle both details open or closed together inside .recipe-pair
-document.querySelectorAll('.recipe-pair details').forEach((detail, _, all) => {
-  detail.addEventListener('toggle', () => {
-    const shouldOpen = detail.open;
-    all.forEach(d => d.open = shouldOpen);
+// Function to detect mobile devices
+function isMobileDevice() {
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Only apply toggle sync if not on mobile
+if (!isMobileDevice()) {
+  const detailsList = document.querySelectorAll('.recipe-pair details');
+
+  detailsList.forEach((detail, _, all) => {
+    detail.addEventListener('toggle', () => {
+      const shouldOpen = detail.open;
+      all.forEach(d => d.open = shouldOpen);
+    });
   });
-});
+}
+
 
