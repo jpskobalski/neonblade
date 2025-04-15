@@ -1,0 +1,95 @@
+/* === cyberart.css === */
+
+body {
+    background-color: #000;
+    color: #39ff14;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    text-transform: lowercase;
+  }
+  
+  .cyberart main {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .glow {
+    color: #00ffee;
+    text-shadow: 0 0 5px #00ffee, 0 0 10px #00ffee;
+  }
+  
+  .intro {
+    color: #80ff80;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  section h3.glow {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  section ul {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  section ul li a {
+    color: #39ff14;
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-shadow: 0 0 3px #39ff14;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  section ul li a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+  }
+  
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .image-grid img {
+    width: 100%;
+    height: auto;
+    border: 2px solid #00ff00;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #00ff00;
+  }
+  
+  .back-button {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .back-button a {
+    border: 1px solid #00ffee;
+    color: #00ffee;
+    padding: 0.5rem 1.2rem;
+    text-decoration: none;
+    text-shadow: 0 0 5px #00ffee;
+    box-shadow: 0 0 10px #00ffee;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  
+  .back-button a:hover {
+    background: #002222;
+    transform: scale(1.05);
+  }
+  

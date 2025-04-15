@@ -1,0 +1,232 @@
+body {
+    background-color: #0a0a0a;
+    color: #39ff14;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  .cyberroom main {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .vibe h2 {
+    font-size: 1.75rem;
+    text-align: center;
+    color: #00ffee;
+    text-shadow: 0 0 5px #00ffee, 0 0 10px #00ffee;
+  }
+  
+  .intro {
+    text-align: center;
+    font-style: italic;
+    color: #80ff80;
+  }
+  
+  /* Centering both terminal and timer */
+  .center-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  /* Terminal Chat Styling */
+  #terminal-window {
+    width: 90vw;
+    max-width: 900px;
+    height: 300px;
+    background: black;
+    border: 2px solid #00ff00;
+    padding: 1rem;
+    box-shadow: 0 0 15px #00ff00;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  #terminal-output {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: 1rem;
+    color: #00ff00;
+  }
+  
+  .terminal-line {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  
+  .prompt {
+    margin-right: 0.5rem;
+    color: #39ff14;
+  }
+  
+  #terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #39ff14;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  /* Timer Section */
+  .timer-section-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap; /* Mobile-friendly */
+  }
+  
+  .timer-gif {
+    width: 30%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 20px #ff00ff;
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  .timer-section {
+    background: #1a1a1a;
+    border: 2px solid #ff00ff;
+    box-shadow: 0 0 15px #ff00ff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 250px;
+    text-align: center;
+  }
+  
+  .timer-display .time {
+    font-size: 2.5rem;
+    color: #ff00ff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff00ff;
+    margin-bottom: 1rem;
+  }
+  
+  .controls button {
+    background: transparent;
+    color: #ff00ff;
+    border: 1px solid #ff00ff;
+    padding: 0.4rem 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    text-shadow: 0 0 5px #ff00ff;
+  }
+  
+  .controls button:hover {
+    background-color: #330033;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    #terminal-window {
+      width: 95vw;
+      height: 280px;
+    }
+  
+    .timer-section {
+      width: 90vw;
+    }
+  }
+
+@keyframes pulse {
+  0% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.9; transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .timer-section-wrapper {
+    flex-direction: column;
+  }
+  .timer-gif {
+    width: 100%;
+  }
+}
+  /* Reduce spacing between messages */
+.terminal-message {
+    margin: 2px 0;
+    line-height: 1.2;
+    font-size: 0.95rem;
+  }
+  
+  /* Username colors */
+  .username {
+    font-weight: bold;
+  }
+  
+  .username.color1 { color: #00ffcc; }
+  .username.color2 { color: #ff66ff; }
+  .username.color3 { color: #00ffff; }
+  .username.color4 { color: #ff00aa; }
+  .username.color5 { color: #39ff14; }
+  .username.color6 { color: #ffaa00; }
+  .username.color7 { color: #ff4444; }
+  .username.color8 { color: #44bbff; }
+  .username.color9 { color: #dd88ff; }
+  .username.color10 { color: #ffffff; } /* guest */
+  .username.color-default { color: #999; }
+
+  .pomodoro-message {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+    font-style: italic;
+  }
+  
+  .music-btn-wrapper {
+    display: none;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    z-index: 10;
+  }
+  
+  #start-music-btn {
+    background: black;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    padding: 0.6rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    text-shadow: 0 0 5px #00ffee;
+    box-shadow: 0 0 10px #00ffee;
+    z-index: 11;
+  }
+  
+  /* Show only on mobile */
+  @media (max-width: 768px) {
+    .music-btn-wrapper {
+      display: flex;
+    }
+  }
+
+hr, section::before, section::after {
+  border: none !important;
+}
+section {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    background-image: none !important;
+  }
+  

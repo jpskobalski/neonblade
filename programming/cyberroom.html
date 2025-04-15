@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ghost.init // Cyberroom</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="cyberroom.css" />
+  <script defer src="cyberroom.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <h1 data-text="ghost.init">ghost.init</h1>
+      <nav>
+        <ul>
+          <li><a href="../programming/programming.html">◀ Back</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="cyberroom">
+      <section class="vibe">
+        <h2 class="glow">Welcome to the Cyberroom</h2>
+        <p class="intro">A space to chill, study, or vibe with synthwave energy pulsing in the background.</p>
+      </section>
+
+        <div class="music-btn-wrapper">
+            <button id="start-music-btn" class="mobile-only">synthwave</button>
+        </div>
+        <audio id="cyber-music" autoplay loop hidden>
+            <source src="../sounds/synthwave.mp3" type="audio/mp3">
+          </audio>
+          
+      <div class="center-wrapper">
+        <section class="terminal-chat">
+          <div id="terminal-window" style="width: 90vw; max-width: 900px; height: 300px;">
+            <div id="terminal-output" style="height: calc(100% - 2rem); overflow: hidden;"></div>
+            <div class="terminal-line">
+              <span class="prompt">guest@cyberroom:~$</span>
+              <input type="text" id="terminal-input" autocomplete="off" />
+            </div>
+          </div>
+        </section>
+
+    <section class="timer-section-wrapper">
+    <img src="/images/cartosun.gif" alt="Synthwave Sun" class="timer-gif left-gif" />
+    
+    <div class="timer-section">
+        <div class="timer-display">
+        <h3 class="glow">Pomodoro Timer</h3>
+        <div class="time" id="timer">25:00</div>
+        <p id="pomodoro-status" class="pomodoro-message"></p>
+        <div class="controls">
+            <button id="start-btn">Start</button>
+            <button id="reset-btn">Reset</button>
+        </div>
+        </div>
+    </div>
+
+    <img src="/images/cartosun.gif" alt="Synthwave Sun" class="timer-gif right-gif" />
+</section>
+
+
+    </main>
+  </div>
+</body>
+</html>

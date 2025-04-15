@@ -171,3 +171,47 @@
     grid-template-columns: 1fr;
   }
 }
+
+.cyberroom-intro {
+  margin: 3rem auto;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  max-width: 500px;
+  border: 1px dashed #00ffee;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px #00ffee44;
+}
+
+.cyberroom-intro p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #00ffee;
+  text-shadow: 0 0 5px #00ffee, 0 0 10px #00ffee;
+}
+
+.cyberroom-intro .neon-button {
+  margin-top: 0.5rem;
+}
+
+.neon-button.purple {
+  background: transparent;
+  border: 1px solid #c94eff;
+  color: #c94eff;
+  padding: 0.6rem 1.2rem;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  text-shadow: 0 0 5px #c94eff, 0 0 10px #c94eff;
+  box-shadow: 0 0 5px #c94eff, inset 0 0 5px #c94eff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.neon-button.purple:hover {
+  background: #c94eff33;
+  box-shadow: 0 0 10px #c94eff, 0 0 20px #c94eff;
+  transform: scale(1.05);
+  color: white;
+}
