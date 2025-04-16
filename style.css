@@ -14,7 +14,7 @@ html, body {
   max-width: 100vw;
   min-height: 100%;
   background-color: #000000;
-  background: linear-gradient(160deg, #000000, #0a0a0a 30%, #050505);
+  background:#000000;
   color: #39ff14;
   font-family: 'Courier New', Courier, monospace;
   scroll-behavior: smooth;
@@ -45,9 +45,9 @@ main {
 }
 
 section {
-  margin-bottom: 2rem;
-  border-bottom: 1px dashed #00ff00;
-  padding-bottom: 1rem;
+  /* margin-bottom: 2rem; */
+  /* border-bottom: 1px dashed #00ff00; */
+  /* padding-bottom: 1rem; */
 }
 
 
