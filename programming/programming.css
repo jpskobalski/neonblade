@@ -215,3 +215,34 @@
   transform: scale(1.05);
   color: white;
 }
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+
+.neon-button.blue {
+  background: transparent;
+  border: 1px solid #ffff33  ;
+  color: #ffff33;
+  padding: 0.6rem 1.2rem;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  text-shadow: 0 0 5px #ffff33, 0 0 10px #ffff33;
+  box-shadow: 0 0 5px #ffff33, inset 0 0 5px #ffff33;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.neon-button.blue:hover {
+  background: #ffff3333;
+  box-shadow: 0 0 10px #ffff33, 0 0 20px #ffff33;
+  transform: scale(1.05);
+  color: white;
+}
