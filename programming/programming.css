@@ -246,3 +246,23 @@
   transform: scale(1.05);
   color: white;
 }
+
+aside .guestbook {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #00ffee;
+}
+
+aside .guestbook h3 {
+  font-size: 1rem;
+  color: #00ffee;
+  text-shadow: 0 0 5px #00ffee;
+}
+
+#c_widget {
+  min-height: 300px;
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #00000033;
+  border-radius: 6px;
+}

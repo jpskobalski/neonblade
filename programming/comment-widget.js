@@ -24,7 +24,7 @@ const s_websiteId = '1095425051';
 const s_textId = '1735496193';
 const s_pageId = '545123489';
 const s_replyId = '755022107';
-const s_sheetId = '1yM1qkcNHo-BoOzAeBm-z-4ZiInDO09argG1xgiSIWoc';
+const s_sheetId = '1i9Wt45692G6tkToyFV8x_9VnBVctR_DbbthThbDgzPM';
 
 // The values below are necessary for accurate timestamps, I've filled it in with EST as an example
 const s_timezone = -3; // Your personal timezone (Example: UTC-5:00 is -5 here, UTC+10:30 would be 10.5)
@@ -211,7 +211,7 @@ function getComments() {
                 else {val1 = json.table.rows[r].c[pageIdx].v}
 
                 // Check if the page name matches before adding to comment array
-                if (val1 == v_pagePath) { 
+                if (val1 == v_pagePath && json.table.rows[r].c[json.table.cols.length - 1]?.v === 'y') { 
                     let comment = {}
                     for (c = 0; c < json.table.cols.length; c++) {
                         // Check for null values
