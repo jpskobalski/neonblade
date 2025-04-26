@@ -51,11 +51,11 @@ const s_filteredWords = [ // Add words to filter by putting them in quotes and s
 ]
 
 // Text - Change what messages/text appear on the form and in the comments section (Mostly self explanatory)
-const s_widgetTitle = 'Leave a comment!';
-const s_nameFieldLabel = 'Name';
-const s_websiteFieldLabel = 'Website (Optional)';
-const s_textFieldLabel = '';
-const s_submitButtonLabel = 'Submit';
+const s_widgetTitle = 'Tell me whats on your mind... or simply leave a message after the tone. beep...';
+const s_nameFieldLabel = 'name*';
+const s_websiteFieldLabel = 'website';
+const s_textFieldLabel = 'message*';
+const s_submitButtonLabel = 'Send';
 const s_loadingText = 'Loading comments...';
 const s_noCommentsText = 'No comments yet!';
 const s_closedCommentsText = 'Comments are closed temporarily!';

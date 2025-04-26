@@ -20,7 +20,7 @@ const terminalOutput = document.getElementById('terminal-output');
 
 const commands = {
   help: "Available commands: help, whoami, glitch \"your text\", clear",
-  whoami: "ghost.init // synthwave entity & code architect"
+  whoami: "neogaucho // synthwave entity & code architect"
 };
 
 // Glitch function
