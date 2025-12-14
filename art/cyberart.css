@@ -1,7 +1,7 @@
 /* === cyberart.css === */
 
 body {
-  background-color: #000;
+  background-color: #000000;
   color: #39ff14;
   font-family: 'Courier New', Courier, monospace;
   margin: 0;
@@ -79,7 +79,7 @@ section ul li a:hover {
 }
 
 .art-card {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(12, 12, 12, 0.6);
   border: 1px solid #39ff14;
   border-radius: 8px;
   padding: 1rem;
@@ -124,7 +124,7 @@ section ul li a:hover {
 }
 
 .music-card {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(12, 12, 12, 0.6);
   border: 1px solid #00ffee;
   border-radius: 8px;
   padding: 1rem;

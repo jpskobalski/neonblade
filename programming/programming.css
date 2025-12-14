@@ -1,6 +1,6 @@
 .code-block {
     margin-top: 2rem;
-    background-color: #0d0d0d;
+    background-color: #000000;
     padding: 1rem;
     border: 1px solid #00ff00;
     box-shadow: 0 0 10px #00ff00;
@@ -19,7 +19,7 @@
   
   /* Terminal sim */
   .terminal {
-    background: #000;
+    background: #000000;
     color: #00ff00;
     padding: 1rem;
     font-family: 'Courier New', monospace;
@@ -49,7 +49,7 @@
   }
   
   #terminal-input {
-    background: black;
+    background: #000000;
     border: none;
     color: #39ff14;
     font-family: 'Courier New', monospace;
@@ -83,7 +83,7 @@
   .grid-cell {
     padding: 1rem;
     border: 1px solid #00ff00;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(12, 12, 12, 0.3);
     border-radius: 6px;
     box-shadow: 0 0 10px #00ff00;
     overflow-wrap: break-word;
@@ -127,7 +127,7 @@
 }
 
 .snippet-card {
-  background-color: #0d0d0d;
+  background-color: #000000;
   border: 1px solid #00ff00;
   box-shadow: 0 0 10px #00ff00;
   border-radius: 6px;
@@ -139,7 +139,7 @@
   cursor: pointer;
   font-size: 1.1rem;
   padding: 1rem;
-  background: #000;
+  background: #000000;
   color: #00ffcc;
   text-shadow: 0 0 5px #00ffee;
   border-bottom: 1px solid #00ff00;
@@ -155,7 +155,7 @@
   font-family: 'Courier New', monospace;
   color: #39ff14;
   font-size: 0.9rem;
-  background-color: #0d0d0d;
+  background-color: #000000;
   overflow-x: auto;
   text-shadow: 0 0 5px #39ff14;
 }
@@ -179,7 +179,7 @@
   max-width: 500px;
   border: 1px dashed #00ffee;
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(12, 12, 12, 0.3);
   box-shadow: 0 0 10px #00ffee44;
 }
 
@@ -263,6 +263,6 @@ aside .guestbook h3 {
   min-height: 300px;
   margin-top: 2rem;
   padding: 1rem;
-  background-color: #00000033;
+  background-color: #000000;
   border-radius: 6px;
 }
