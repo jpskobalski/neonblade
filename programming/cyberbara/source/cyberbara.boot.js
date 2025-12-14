@@ -1,17 +1,15 @@
 /* cyberbara.boot.js
-   Cyberbara (streetlight lo-fi) — Game assembly + main loop
-   Depends on (load in this order):
-     1) cyberbara.core.js
-     2) cyberbara.world.js
-     3) cyberbara.render.js
-     4) cyberbara.ui.js
-     5) cyberbara.boot.js (this)
+   Cyberbara — Game assembly + main loop (updated for 5-zone cross world)
 
-   This file:
-     - defines Player + collision
-     - defines Game state machine
-     - wires buttons + keyboard escape handling
-     - starts the Engine
+   Changes vs your current boot.js:
+   - No longer caches TS/WORLD_W/WORLD_H at load time (they change per-zone).
+   - Adds zone transitions via portal tiles using:
+       CB.world.checkTransitionAtTile(tx,ty)
+       CB.world.setZone(toZone, entryKey) -> spawn {tx,ty}
+   - Adds transition cooldown to avoid bounce loops.
+   - Save format bumped to v2 (backward-compatible with v1):
+       stores zoneName + entryKey-ish spawn restore (we restore by zone + px/py).
+   - Camera clamp recalculated per-frame from CB.world.constants.
 */
 
 (() => {
@@ -23,7 +21,7 @@
     return;
   }
 
-  const { clamp, lerp, approach, clampCam, nowMs } = CB.util;
+  const { lerp, approach, clampCam, nowMs } = CB.util;
   const dom = CB.dom;
   const ui = CB.ui;
   const input = CB.input;
@@ -34,25 +32,56 @@
   const invUI = new CB.uiLayer.InventoryUI();
 
   const W = CB.world;
-  const {
-    TS, WORLD_W, WORLD_H, SCALE,
-  } = W.constants;
 
   /* =========================
-     Collision
+     World helpers (dynamic constants)
+     ========================= */
+
+  function TS() { return W.constants.TS; }
+  function WORLD_W() { return W.constants.WORLD_W; }
+  function WORLD_H() { return W.constants.WORLD_H; }
+  function SCALE() { return W.constants.SCALE; }
+
+  function snapPlayerToSpawn(player, spawn) {
+    const ts = TS();
+    player.x = (spawn.tx + 0.5) * ts;
+    player.y = (spawn.ty + 0.5) * ts;
+    player.vx = 0;
+    player.vy = 0;
+  }
+
+  function forceCameraToPlayer(player) {
+    const ww = WORLD_W();
+    const wh = WORLD_H();
+    const vw = CB.view.w;
+    const vh = CB.view.h;
+
+    const minCamX = 0;
+    const maxCamX = Math.max(0, ww - vw);
+    const minCamY = 0;
+    const maxCamY = Math.max(0, wh - vh);
+
+    CB.view.camX = clampCam(player.x - vw * 0.5, minCamX, maxCamX);
+    CB.view.camY = clampCam(player.y - vh * 0.55, minCamY, maxCamY);
+  }
+
+  /* =========================
+     Collision (zone-aware)
      ========================= */
 
   function collidesAABB(aabb) {
-    const minTx = Math.floor(aabb.x / TS);
-    const minTy = Math.floor(aabb.y / TS);
-    const maxTx = Math.floor((aabb.x + aabb.w) / TS);
-    const maxTy = Math.floor((aabb.y + aabb.h) / TS);
+    const ts = TS();
+
+    const minTx = Math.floor(aabb.x / ts);
+    const minTy = Math.floor(aabb.y / ts);
+    const maxTx = Math.floor((aabb.x + aabb.w) / ts);
+    const maxTy = Math.floor((aabb.y + aabb.h) / ts);
 
     for (let ty = minTy; ty <= maxTy; ty++) {
       for (let tx = minTx; tx <= maxTx; tx++) {
         const id = W.tileAt(tx, ty);
         if (!W.isWalkableTile(id)) return true;
-        if (W.isDecoSolidAt(tx, ty)) return true;
+        if (W.isDecoSolidAt && W.isDecoSolidAt(tx, ty)) return true;
       }
     }
     return false;
@@ -68,20 +97,20 @@
     let lo = 0, hi = 1;
     for (let i = 0; i < 10; i++) {
       const mid = (lo + hi) / 2;
-      const tx = lerp(ox, nx, mid);
-      const ty = lerp(oy, ny, mid);
+      const tx = ox + (nx - ox) * mid;
+      const ty = oy + (ny - oy) * mid;
       const test = player.getAABB(tx, ty);
       if (collidesAABB(test)) hi = mid;
       else lo = mid;
     }
 
-    const fx = lerp(ox, nx, lo);
-    const fy = lerp(oy, ny, lo);
+    const fx = ox + (nx - ox) * lo;
+    const fy = oy + (ny - oy) * lo;
 
     let vx = player.vx;
     let vy = player.vy;
 
-    // stop the dominant axis
+    // stop dominant axis
     if (Math.abs(nx - ox) > Math.abs(ny - oy)) vx = 0;
     else vy = 0;
 
@@ -93,11 +122,14 @@
      ========================= */
 
   class Player {
-    constructor() { this.reset(); }
+    constructor() { this.resetToZoneStart(); }
 
-    reset() {
-      this.x = (3.5 * TS);
-      this.y = (14.5 * TS);
+    resetToZoneStart() {
+      // Ensure hub is active, then place player at hub start spawn
+      try { W.setZone("hub", "start"); } catch (_) {}
+      const spawn = W.spawn || { tx: 5, ty: 5 };
+      snapPlayerToSpawn(this, spawn);
+
       this.vx = 0;
       this.vy = 0;
 
@@ -105,11 +137,18 @@
       this.accel = 900;
       this.friction = 1100;
 
-      this.w = TS * 0.55;
-      this.h = TS * 0.60;
+      this.w = TS() * 0.55;
+      this.h = TS() * 0.60;
 
       this.face = 1;
       this.walkT = 0;
+    }
+
+    // If TS changes (zone change), keep body size aligned to TS
+    refreshSizeFromTS() {
+      const ts = TS();
+      this.w = ts * 0.55;
+      this.h = ts * 0.60;
     }
 
     getAABB(nx = this.x, ny = this.y) {
@@ -161,18 +200,21 @@
 
       this.memories = new Set();
       this.memoryData = [];
-      this.zone = "alley";
+
+      // HUD zone label comes from world zoneName now
+      this.zone = W.zoneName || "hub";
 
       this.clockMin = 21 * 60 + 10;
       this.clockSpeed = 0.25;
 
       this.interactCooldown = 0;
+      this.zoneCooldown = 0; // prevents portal bounce
 
       // initialize HUD totals
       CB.uiLayer.updateHUD({
         zone: this.zone,
         memCount: 0,
-        memTotal: W.MEM_TOTAL,
+        memTotal: W.MEM_TOTAL || 0,
         clockMin: this.clockMin,
       });
 
@@ -183,11 +225,14 @@
       ui.status("tip: explore slowly. interact twice with the same object.");
       ui.hint("[enter] interact · [i] inventory · [esc] close");
 
-      // Show panels to match START state
       CB.uiLayer.panels.showStart();
       CB.uiLayer.panels.hidePause();
       CB.ui.hide(dom.dialog);
       CB.ui.hide(dom.inv);
+
+      // ensure camera starts sane
+      this.player.refreshSizeFromTS();
+      forceCameraToPlayer(this.player);
     }
 
     _wireButtons() {
@@ -198,7 +243,6 @@
       dom.btnCloseDialog?.addEventListener("click", () => this.closeDialog());
       dom.btnCloseInv?.addEventListener("click", () => this.closeInv());
 
-      // Ensure audio starts on first user gesture
       const gesture = () => {
         audio.start();
         audio.resumeIfNeeded();
@@ -217,7 +261,6 @@
         else if (this.mode === Mode.PAUSE) this.resume();
       }, { passive: false });
 
-      // Start from keyboard
       window.addEventListener("keydown", (e) => {
         if (e.key !== "Enter") return;
         if (this.mode === Mode.START) this.start();
@@ -226,7 +269,8 @@
 
     _save() {
       CB.storage.save({
-        v: 1,
+        v: 2,
+        zone: W.zoneName || "hub",
         px: this.player.x,
         py: this.player.y,
         mem: Array.from(this.memories),
@@ -239,6 +283,7 @@
       const saved = CB.storage.load();
       if (!saved) return;
 
+      // v1 legacy (no zone)
       if (saved.v === 1) {
         if (typeof saved.px === "number" && typeof saved.py === "number") {
           this.player.x = saved.px;
@@ -247,21 +292,55 @@
         if (Array.isArray(saved.mem)) for (const m of saved.mem) this.memories.add(m);
         if (Array.isArray(saved.memData)) this.memoryData = saved.memData.filter(x => x && x.id && x.title);
         if (typeof saved.clockMin === "number") this.clockMin = saved.clockMin | 0;
+
+        // ensure hub active in v1
+        try { W.setZone("hub", "start"); } catch (_) {}
+        this.player.refreshSizeFromTS();
+        forceCameraToPlayer(this.player);
+
+        ui.status("save loaded. continue where you left off.");
+        if (dom.bootLine) ui.setText(dom.bootLine, "save loaded.");
+        this._updateHUD();
+        return;
       }
 
-      ui.status("save loaded. continue where you left off.");
-      if (dom.bootLine) ui.setText(dom.bootLine, "save loaded.");
+      // v2 (zone-aware)
+      if (saved.v === 2) {
+        const zone = typeof saved.zone === "string" ? saved.zone : "hub";
+        try {
+          // set zone first so TS/WORLD sizes are correct before applying px/py
+          W.setZone(zone, "start");
+        } catch (_) {
+          W.setZone("hub", "start");
+        }
 
-      this._updateHUD();
+        if (typeof saved.px === "number" && typeof saved.py === "number") {
+          this.player.x = saved.px;
+          this.player.y = saved.py;
+        } else {
+          snapPlayerToSpawn(this.player, W.spawn || { tx: 5, ty: 5 });
+        }
+
+        if (Array.isArray(saved.mem)) for (const m of saved.mem) this.memories.add(m);
+        if (Array.isArray(saved.memData)) this.memoryData = saved.memData.filter(x => x && x.id && x.title);
+        if (typeof saved.clockMin === "number") this.clockMin = saved.clockMin | 0;
+
+        this.player.refreshSizeFromTS();
+        forceCameraToPlayer(this.player);
+
+        ui.status("save loaded. continue where you left off.");
+        if (dom.bootLine) ui.setText(dom.bootLine, "save loaded.");
+        this._updateHUD();
+      }
     }
 
     _updateHUD() {
-      this.zone = W.computeZone(this.player.x, this.player.y);
+      this.zone = W.computeZone ? W.computeZone(this.player.x, this.player.y) : (W.zoneName || "hub");
 
       CB.uiLayer.updateHUD({
         zone: this.zone,
         memCount: this.memories.size,
-        memTotal: W.MEM_TOTAL,
+        memTotal: W.MEM_TOTAL || 0,
         clockMin: this.clockMin,
       });
     }
@@ -304,8 +383,16 @@
     }
 
     restart() {
-      this.player.reset();
+      // hard reset: back to hub, clear motion, keep memories (your current behavior keeps memories)
+      // If you want a full wipe, also clear memories + memoryData and storage.
+      W.setZone("hub", "start");
+      this.player.resetToZoneStart();
+      this.player.refreshSizeFromTS();
+      forceCameraToPlayer(this.player);
+
       this.clockMin = 21 * 60 + 10;
+      this.zoneCooldown = 0.25;
+      this.interactCooldown = 0;
 
       this.mode = Mode.RUN;
       CB.uiLayer.panels.hideStart();
@@ -317,7 +404,7 @@
       this._save();
       this._updateHUD();
 
-      ui.status("restarted at the alley entrance.");
+      ui.status("restarted at the hub.");
       dom.canvas?.focus();
     }
 
@@ -362,6 +449,35 @@
       ui.status("...");
     }
 
+    _tryZoneTransition() {
+      if (this.zoneCooldown > 0) return false;
+
+      const ts = TS();
+      const pTx = Math.floor(this.player.x / ts);
+      const pTy = Math.floor(this.player.y / ts);
+
+      const tr = W.checkTransitionAtTile ? W.checkTransitionAtTile(pTx, pTy) : null;
+      if (!tr) return false;
+
+      const prev = W.zoneName || "hub";
+      const spawn = W.setZone(tr.toZone, tr.entryKey);
+
+      // refresh player size + teleport
+      this.player.refreshSizeFromTS();
+      snapPlayerToSpawn(this.player, spawn);
+
+      // snap camera immediately so it feels clean
+      forceCameraToPlayer(this.player);
+
+      // cooldown so you don't immediately bounce
+      this.zoneCooldown = 0.35;
+
+      ui.status(`moved: ${prev} → ${W.zoneName}`);
+      this._save();
+      this._updateHUD();
+      return true;
+    }
+
     update(dt, timeMs) {
       // pause toggle
       if (input.consumePause()) {
@@ -369,7 +485,7 @@
         else if (this.mode === Mode.PAUSE) this.resume();
       }
 
-      // global clock tick (only while running)
+      // clock tick (only while running)
       if (this.mode === Mode.RUN) {
         this.clockMin = (this.clockMin + dt * this.clockSpeed) % (24 * 60);
       }
@@ -392,21 +508,31 @@
       }
 
       // RUN
+      this.zoneCooldown = Math.max(0, this.zoneCooldown - dt);
+      this.interactCooldown = Math.max(0, this.interactCooldown - dt);
+
       this.player.update(dt);
 
-      // camera follow (center if world smaller than view)
-      const minCamX = 0;
-      const maxCamX = WORLD_W - CB.view.w;
-      const minCamY = 0;
-      const maxCamY = WORLD_H - CB.view.h;
+      // zone transitions (auto when stepping onto portal tile)
+      // If you prefer "press Enter to travel", tell me and I'll switch this to gated input.
+      this._tryZoneTransition();
 
-      const targetCamX = clampCam(this.player.x - CB.view.w * 0.5, minCamX, maxCamX);
-      const targetCamY = clampCam(this.player.y - CB.view.h * 0.55, minCamY, maxCamY);
+      // camera follow (zone-aware bounds)
+      const ww = WORLD_W();
+      const wh = WORLD_H();
+      const vw = CB.view.w;
+      const vh = CB.view.h;
+
+      const minCamX = 0;
+      const maxCamX = Math.max(0, ww - vw);
+      const minCamY = 0;
+      const maxCamY = Math.max(0, wh - vh);
+
+      const targetCamX = clampCam(this.player.x - vw * 0.5, minCamX, maxCamX);
+      const targetCamY = clampCam(this.player.y - vh * 0.55, minCamY, maxCamY);
 
       CB.view.camX = lerp(CB.view.camX, targetCamX, 1 - Math.exp(-dt * 6.5));
       CB.view.camY = lerp(CB.view.camY, targetCamY, 1 - Math.exp(-dt * 6.5));
-
-      this.interactCooldown = Math.max(0, this.interactCooldown - dt);
 
       // inventory toggle
       if (input.consumeInventory()) {
@@ -414,12 +540,17 @@
         return;
       }
 
-      // detect nearby interactable
-      const pTx = Math.floor(this.player.x / TS);
-      const pTy = Math.floor(this.player.y / TS);
-      const nearby = W.interactableNearTile(pTx, pTy);
+      // nearby interactable (zone-aware TS)
+      const ts = TS();
+      const pTx = Math.floor(this.player.x / ts);
+      const pTy = Math.floor(this.player.y / ts);
+      const nearby = W.interactableNearTile ? W.interactableNearTile(pTx, pTy) : null;
 
-      ui.hint(nearby ? `[enter] interact: ${nearby.name} · [i] inventory` : "[enter] interact · [i] inventory · [esc] close");
+      // portal hint (optional UX boost without touching UI.js)
+      const onPortal = W.checkTransitionAtTile ? !!W.checkTransitionAtTile(pTx, pTy) : false;
+      if (nearby) ui.hint(`[enter] interact: ${nearby.name} · [i] inventory`);
+      else if (onPortal) ui.hint("moving zones… follow the neon roads.");
+      else ui.hint("[enter] interact · [i] inventory · [esc] close");
 
       if (nearby && this.interactCooldown <= 0 && input.consumeInteract()) {
         this.interactCooldown = 0.18;
@@ -433,25 +564,25 @@
     }
 
     draw(timeMs) {
-      // world pass
       CB.render.drawWorld(timeMs, this);
 
-      // player + bracket in world space
       const ctx = CB.dom.ctx;
+      const ts = TS();
+
       ctx.save();
       ctx.translate(-CB.view.camX, -CB.view.camY);
 
       const glow = 0.8 + 0.2 * Math.sin(timeMs * 0.002);
       CB.render.drawPlayer(this.player, timeMs, glow);
 
-      const pTx = Math.floor(this.player.x / TS);
-      const pTy = Math.floor(this.player.y / TS);
-      const nearby = W.interactableNearTile(pTx, pTy);
+      const pTx = Math.floor(this.player.x / ts);
+      const pTy = Math.floor(this.player.y / ts);
+      const nearby = W.interactableNearTile ? W.interactableNearTile(pTx, pTy) : null;
 
       if (nearby && this.mode === Mode.RUN) {
         CB.render.drawInteractBracket(
-          nearby.tx * TS + TS * 0.5,
-          nearby.ty * TS + TS * 0.5,
+          nearby.tx * ts + ts * 0.5,
+          nearby.ty * ts + ts * 0.5,
           timeMs
         );
       }
@@ -481,10 +612,8 @@
      Launch
      ========================= */
 
-  // Ensure canvas is sized correctly at boot
   CB.canvas.resize();
 
-  // Create game + engine
   const game = new Game();
   CB.__game = game;
 
@@ -496,9 +625,7 @@
     ui.status("runtime error. check console.");
   };
 
-  // Ensure mute button label matches current state
   if (dom.btnMute) dom.btnMute.textContent = audio.muted ? "unmute" : "mute";
 
-  // Start loop
   engine.tick();
 })();
