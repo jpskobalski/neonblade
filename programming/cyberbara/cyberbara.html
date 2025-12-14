@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#070814" />
+  <meta name="description" content="Cyberbara" />
+
+  <title>cyberbara</title>
+
+  <link rel="stylesheet" href="cyberbara.css" />
+</head>
+
+<body>
+  <!-- terminal header / status -->
+  <header class="termbar" aria-label="terminal header">
+    <div class="termbar__left">
+      <div class="termbar__title">cyberbara</div>
+      <div class="termbar__sub">lo-fi micro-world</div>
+    </div>
+
+    <div class="termbar__right" aria-label="game status">
+      <div class="stat">
+        <div class="stat__k">zone</div>
+        <div class="stat__v" id="zone">alley</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">memories</div>
+        <div class="stat__v"><span id="memCount">0</span>/<span id="memTotal">0</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">time</div>
+        <div class="stat__v" id="clock">00:00</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- canvas stage -->
+  <main class="stage" aria-label="game stage">
+    <canvas id="game" tabindex="0" aria-label="streetlight canvas"></canvas>
+
+    <!-- subtle terminal overlay info -->
+    <div class="overlay" aria-hidden="true">
+      <div class="overlay__line" id="hintLine">[enter] interact · [i] inventory · [esc] close</div>
+    </div>
+
+    <!-- dialog box -->
+    <section class="dialog dialog--hidden" id="dialog" aria-label="dialog">
+      <div class="dialog__frame">
+        <div class="dialog__header">
+          <span class="dialog__prompt">></span>
+          <span class="dialog__title" id="dialogTitle">streetlight</span>
+          <span class="dialog__spacer"></span>
+          <button class="btn btn--ghost" id="btnCloseDialog" type="button" aria-label="close dialog">esc</button>
+        </div>
+        <div class="dialog__body" id="dialogBody">
+          ...
+        </div>
+        <div class="dialog__footer">
+          <span class="kbd">enter</span> continue
+          <span class="sep">·</span>
+          <span class="kbd">esc</span> close
+        </div>
+      </div>
+    </section>
+
+    <!-- inventory / memories -->
+    <section class="inv inv--hidden" id="inv" aria-label="inventory">
+      <div class="inv__frame">
+        <div class="inv__header">
+          <div class="inv__title">memories</div>
+          <div class="inv__meta"><span id="invCount">0</span> collected</div>
+          <button class="btn btn--ghost" id="btnCloseInv" type="button" aria-label="close inventory">esc</button>
+        </div>
+        <ol class="inv__list" id="invList" aria-label="memory list">
+          <!-- injected by JS -->
+        </ol>
+        <div class="inv__footer">
+          <span class="kbd">↑</span><span class="kbd">↓</span> browse
+          <span class="sep">·</span>
+          <span class="kbd">esc</span> close
+        </div>
+      </div>
+    </section>
+
+    <!-- start screen -->
+    <section class="panel" id="start" aria-label="start screen">
+      <div class="panel__frame">
+        <div class="panel__title">cyberbara lo-fi</div>
+        <div class="panel__text">
+          walk. listen. interact with the neon objects. collect small memories.
+        </div>
+
+        <div class="panel__actions">
+          <button class="btn btn--primary" id="btnStart" type="button">boot</button>
+          <button class="btn" id="btnMute" type="button">mute</button>
+          <a class="btn btn--link" href="../index.html" id="btnBack">back</a>
+        </div>
+
+        <div class="panel__hint">
+          controls:
+          <span class="kbd">←</span><span class="kbd">→</span><span class="kbd">↑</span><span class="kbd">↓</span> move
+          <span class="sep">·</span>
+          <span class="kbd">enter</span> interact
+          <span class="sep">·</span>
+          <span class="kbd">i</span> inventory
+        </div>
+
+        <div class="panel__mono" id="bootLine">ready.</div>
+      </div>
+    </section>
+
+    <!-- pause screen -->
+    <section class="panel panel--hidden" id="pause" aria-label="pause screen">
+      <div class="panel__frame">
+        <div class="panel__title">paused</div>
+        <div class="panel__text">press <span class="kbd">p</span> to resume.</div>
+        <div class="panel__actions">
+          <button class="btn btn--primary" id="btnResume" type="button">resume</button>
+          <button class="btn" id="btnRestart" type="button">restart</button>
+          <button class="btn" id="btnMenu" type="button">menu</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- terminal footer -->
+  <footer class="termfoot" aria-label="terminal footer">
+    <div class="termfoot__left" id="statusLine">tip: explore slowly. interact twice with the same object.</div>
+    <div class="termfoot__right">
+      <span class="kbd">p</span> pause
+      <span class="sep">·</span>
+      <span class="kbd">m</span> mute
+    </div>
+  </footer>
+
+<script src="source/cyberbara.core.js"></script>
+<script src="source/cyberbara.world.js"></script>
+<script src="source/cyberbara.render.js"></script>
+<script src="source/cyberbara.ui.js"></script>
+<script src="source/cyberbara.boot.js"></script>
+</body>
+</html>
